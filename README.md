@@ -1,54 +1,28 @@
-## How to build an application?
+## Requirements
 
-* development
+* [Node](https://nodejs.org) > 7.6 && < 12
 
-    ```bash
-    npm run build
-    ```
 
-* production
+Install npm dependencies
 
-    ```bash
-    npm run build:production
-    ```
-
-_Open public/ directory in browser._
-
-## How to develop an application?
-
-```bash
-npm run watch
+```sh
+ npm install 
 ```
 
-_Open public/ directory in browser._
+To start the development server
 
-## Remove generated directory
-
-If you would like to remove `public/dist` directory (created by Webpack):
-
-```bash
-npm run clear
+```sh
+npm start
 ```
 
-If you would like to remove `node_modules/` and remove `public/dist/`
+To build for production
 
-```bash
-npm run clear:all
-```
-
-## Count LOC (Lines of Code)
-
-If you would like to know how many lines of code you write:
-
-```bash
-npm run count
-```
-
-## Analysis of bundle file weight
-
-If you would like to check how much a bundle file weight:
-
-```bash
+```sh
 npm run build
-npm run audit
 ```
+
+To preview the production build
+```sh
+npm run preview
+```
+
