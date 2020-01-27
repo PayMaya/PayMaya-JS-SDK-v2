@@ -15,8 +15,6 @@ class PayMayaClientSDK {
     return PayMayaClientSDK.instance
   }
 
-
-
   async triggerCheckout(paymentRequestBody) {
     const fetchConfig = {
       method: 'POST',
@@ -28,16 +26,8 @@ class PayMayaClientSDK {
     };
     const response = await fetch(this.apiUrl, fetchConfig);
     const { checkoutId, redirectUrl } = await response.json();
-    console.log(checkoutId, redirectUrl)
+    console.log(checkoutId, redirectUrl);
     window.location.href = redirectUrl;
-    // const ifrm = document.createElement('iframe');
-    // ifrm.setAttribute('src', redirectUrl);
-    // ifrm.setAttribute('id', 'paymaya-iframe');
-    // ifrm.style.width = '640px';
-    // ifrm.style.height = '480px';
-    // document.body.appendChild(ifrm);
-    // const win = window.open(redirectUrl, '_blank');
-    // win.document.write(`<!--<iframe width="560" height="315" src="${redirectUrl}"></iframe>-->`)
   }
 
 }
@@ -46,9 +36,19 @@ function encodeBase64String(string) {
   return btoa(string);
 }
 
-console.log(PayMayaClientSDK, 'SDK class')
-
 const b64 = "pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah:";
 
 const p = new PayMayaClientSDK(b64, true);
-p.triggerCheckout(paymentExampleObject).then(res => console.log(res));
+
+async function triggerClick() {
+  // await p.triggerCheckout(paymentExampleObject)
+  console.log('i can trigger checkout here')
+}
+
+// function onSubmit(e) {
+//   e.preventDefault();
+//   console.log(new FormData(document.getElementById('form')))
+// }
+// document.getElementById('form').addEventListener('submit', onSubmit)
+
+document.getElementById('trigger').addEventListener('click', triggerClick);
