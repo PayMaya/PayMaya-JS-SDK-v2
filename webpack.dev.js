@@ -6,7 +6,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = {
     devtool: 'eval-cheap-module-source-map',
-    entry: ['@babel/polyfill', './src/index.js'],
+    entry: ['./src/index.js'],
     devServer: {
         port: 8080,
         open: true,
@@ -23,8 +23,12 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: 'babel-loader',
                 options: {
-                    plugins: ["@babel/plugin-transform-regenerator"],
-                    presets: ['env']
+                    presets: ['@babel/preset-env'],
+                    plugins: [
+                        "@babel/transform-runtime",
+                        '@babel/transform-regenerator',
+                        '@babel/proposal-object-rest-spread'
+                    ]
                 }
             },
         ],

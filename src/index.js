@@ -1,35 +1,55 @@
-import { paymentExampleObject } from './exampleData';
-
-console.log('test paymaya sdk');
-console.log(process.env.PAYMAYA_URL);
-
-
 class PayMayaClientSDK {
   constructor(publicKey, isSandbox) {
     // make sure its singleton
     if (!PayMayaClientSDK.instance) {
       PayMayaClientSDK.instance = this;
     }
-    this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com/checkout/v1/checkouts' : 'wrong';
+    this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
     this.publicKey = publicKey;
-    return PayMayaClientSDK.instance
-  }
-
-  async triggerCheckout(paymentRequestBody) {
-    const fetchConfig = {
-      method: 'POST',
+    this.fetchConfigHeaders = {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Basic ${encodeBase64String(this.publicKey)}`
-      },
-      body: JSON.stringify(paymentRequestBody)
+      }
     };
-    const response = await fetch(this.apiUrl, fetchConfig);
-    const { checkoutId, redirectUrl } = await response.json();
-    console.log(checkoutId, redirectUrl);
+    return PayMayaClientSDK.instance
+  }
+
+  async triggerCheckout(checkoutRequestObject) {
+    const config = {
+      ...this.fetchConfigHeaders,
+      method: 'POST',
+      body: JSON.stringify(checkoutRequestObject)
+    };
+    const response = await fetch(`${this.apiUrl}/checkout/v1/checkouts`, config);
+    const r = await response.json();
+    if (r.code !== undefined) {
+      throw r.parameters;
+    }
+    window.location.href = r.redirectUrl;
+  }
+
+  async createWalletLink(walletLinkRequestObject) {
+    const config = {
+      ...this.fetchConfigHeaders,
+      method: 'POST',
+      body: JSON.stringify(walletLinkRequestObject)
+    };
+    const response = await fetch(`${this.apiUrl}/payby/v2/paymaya/link`, config);
+    const { linkId, redirectUrl } = await response.json();
     window.location.href = redirectUrl;
   }
 
+  async createSinglePayment(singlePaymentRequestObject) {
+    const config = {
+      ...this.fetchConfigHeaders,
+      method: 'POST',
+      body: JSON.stringify(singlePaymentRequestObject)
+    };
+    const response = await fetch(`${this.apiUrl}/payby/v2/paymaya/link`, config);
+    const { paymentId, redirectUrl } = await response.json();
+    window.location.href = redirectUrl;
+  }
 }
 
 function encodeBase64String(string) {
@@ -40,15 +60,10 @@ const b64 = "pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah:";
 
 const p = new PayMayaClientSDK(b64, true);
 
-async function triggerClick() {
-  // await p.triggerCheckout(paymentExampleObject)
-  console.log('i can trigger checkout here')
+async function triggerClick(event) {
+  event.preventDefault();
+  await p.triggerCheckout({ items: [], totalAmount: {}, requestReferenceNumber: '1209539' });
 }
 
-// function onSubmit(e) {
-//   e.preventDefault();
-//   console.log(new FormData(document.getElementById('form')))
-// }
-// document.getElementById('form').addEventListener('submit', onSubmit)
 
 document.getElementById('trigger').addEventListener('click', triggerClick);
