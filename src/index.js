@@ -15,7 +15,7 @@ class PayMayaClientSDK {
     return PayMayaClientSDK.instance
   }
 
-  async triggerCheckout(checkoutRequestObject) {
+  async createCheckout(checkoutRequestObject) {
     const config = {
       ...this.fetchConfigHeaders,
       method: 'POST',
@@ -46,7 +46,7 @@ class PayMayaClientSDK {
       method: 'POST',
       body: JSON.stringify(singlePaymentRequestObject)
     };
-    const response = await fetch(`${this.apiUrl}/payby/v2/paymaya/link`, config);
+    const response = await fetch(`${this.apiUrl}/payby/v2/paymaya/payments`, config);
     const { paymentId, redirectUrl } = await response.json();
     window.location.href = redirectUrl;
   }
@@ -62,7 +62,7 @@ const p = new PayMayaClientSDK(b64, true);
 
 async function triggerClick(event) {
   event.preventDefault();
-  await p.triggerCheckout({ items: [], totalAmount: {}, requestReferenceNumber: '1209539' });
+  await p.createCheckout({ items: [], totalAmount: {}, requestReferenceNumber: '1209539' });
 }
 
 
