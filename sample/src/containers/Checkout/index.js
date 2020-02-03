@@ -13,11 +13,14 @@ class Checkout extends Component {
         }
     }
 
-    handleCheckout = (values) => {
 
+    async createCheckout(response){
         const publicKey = 'pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah';
-
         const sdk = new PayMayaClientSDK(publicKey, true);
+        await sdk.createCheckout(response)
+    }
+
+    handleCheckout = (values) => {
 
         const details = {
             discount: values.discount,
@@ -66,7 +69,7 @@ class Checkout extends Component {
             bodyResponseForCheckout
         }, () => {
             console.log(bodyResponseForCheckout)
-            sdk.triggerCheckout(bodyResponseForCheckout)
+            this.createCheckout(bodyResponseForCheckout)
         })
 
         

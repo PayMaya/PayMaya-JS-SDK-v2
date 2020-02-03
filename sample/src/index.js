@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
@@ -14,7 +14,7 @@ const root = document.querySelector('#root')
 render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-        <App />
+      <App />
     </ConnectedRouter>
   </Provider>,
   root
