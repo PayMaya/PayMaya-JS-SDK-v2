@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form'
 
+import PayMayaClientSDK from 'paymaya-sdk'
+
 import { isEmptyObject } from '../../utils'
 
 class SinglePayment extends Component {
@@ -9,6 +11,12 @@ class SinglePayment extends Component {
         this.state = {
             bodyResponseForSinglePayment: {}
         }
+    }
+
+    async createSinglePayment(response){
+        const publicKey = 'pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah';
+        const sdk = new PayMayaClientSDK(publicKey, true);
+        await sdk.createSinglePayment(response)
     }
 
     handleSinglePayment = (values) => {
@@ -21,12 +29,21 @@ class SinglePayment extends Component {
             totalAmount: {...totalAmount},
             requestReferenceNumber: values.requestReferenceNumber
         }
-        
 
         this.setState({
             bodyResponseForSinglePayment
         }, () => {
             console.log(bodyResponseForSinglePayment)
+            setTimeout( () => {
+                alert('To run Single payment method for PayMaya SDK')
+                this.createSinglePayment(bodyResponseForSinglePayment).then().catch(err => {
+                    this.setState({
+                        bodyResponseForSinglePayment: err
+                    }, () => {
+                        console.log(err)
+                    })
+                })
+            }, 2000)
         })
         
     }
