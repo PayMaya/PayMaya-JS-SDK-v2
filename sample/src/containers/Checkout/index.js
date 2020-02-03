@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form'
 
+import PayMayaClientSDK from 'paymaya-sdk'
+
 import { isEmptyObject } from '../../utils'
 
 class Checkout extends Component {
@@ -12,6 +14,10 @@ class Checkout extends Component {
     }
 
     handleCheckout = (values) => {
+
+        const publicKey = 'pk-Z0OSzLvIcOI2UIvDhdTGVVfRSSeiGStnceqwUE7n0Ah';
+
+        const sdk = new PayMayaClientSDK(publicKey, true);
 
         const details = {
             discount: values.discount,
@@ -60,7 +66,10 @@ class Checkout extends Component {
             bodyResponseForCheckout
         }, () => {
             console.log(bodyResponseForCheckout)
+            sdk.triggerCheckout(bodyResponseForCheckout)
         })
+
+        
         
     }
     render() {
