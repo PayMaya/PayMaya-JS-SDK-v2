@@ -22,24 +22,133 @@ or simply include it in your script tag on your HTML site:
 
 ## Available methods
 
-After including PayMaya SDK library in your code, you should be able to access `PayMayaClientSDK`. Instance of this class enables you to use 4 available methods for dealing with PayMaya payments on your website.
+After including PayMaya SDK library in your code, you should be able to access `PayMayaClientSDK` class. Instance of this class allows you to use 3 available methods for dealing with PayMaya payments on your website.
 
-#### triggerCheckout
-This method triggers PayMaya API request and if successful redirects page to paymaya checkout gate, where user can finalize his payments. 
+#### `createCheckout(checkoutRequestObject)`
+This method redirects user to paymaya checkout gate, where user can finalize his payments.
 
-| Parameter             | Type   | Description                                                       |
-|-----------------------|--------|-------------------------------------------------------------------|
-| checkoutRequestObject | object | The object that includes buyer and payment informations and more. |
-The `checkoutRequestObject` properties can be found [here.](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject)
+`checkoutRequestObject` properties are defined defined [here](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject). 
+
+Example `checkoutRequestObject`:
+```json
+{
+  "totalAmount": {
+    "value": 100,
+    "currency": "PHP",
+    "details": {
+      "discount": 0,
+      "serviceCharge": 0,
+      "shippingFee": 0,
+      "tax": 0,
+      "subtotal": 100
+    }
+  },
+  "buyer": {
+    "firstName": "John",
+    "middleName": "Paul",
+    "lastName": "Doe",
+    "birthday": "1995-10-24",
+    "customerSince": "1995-10-24",
+    "sex": "M",
+    "contact": {
+      "phone": "+639181008888",
+      "email": "merchant@merchantsite.com"
+    },
+    "shippingAddress": {
+      "firstName": "John",
+      "middleName": "Paul",
+      "lastName": "Doe",
+      "phone": "+639181008888",
+      "email": "merchant@merchantsite.com",
+      "line1": "6F Launchpad",
+      "line2": "Reliance Street",
+      "city": "Mandaluyong City",
+      "state": "Metro Manila",
+      "zipCode": "1552",
+      "countryCode": "PH",
+      "shippingType": "ST" // ST - for standard, SD - for same day
+    },
+    "billingAddress": {
+      "line1": "6F Launchpad",
+      "line2": "Reliance Street",
+      "city": "Mandaluyong City",
+      "state": "Metro Manila",
+      "zipCode": "1552",
+      "countryCode": "PH"
+    }
+  },
+  "items": [
+    {
+      "name": "Canvas Slip Ons",
+      "quantity": 1,
+      "code": "CVG-096732",
+      "description": "Shoes",
+      "amount": {
+        "value": 100,
+        "details": {
+          "discount": 0,
+          "serviceCharge": 0,
+          "shippingFee": 0,
+          "tax": 0,
+          "subtotal": 100
+        }
+      },
+      "totalAmount": {
+        "value": 100,
+        "details": {
+          "discount": 0,
+          "serviceCharge": 0,
+          "shippingFee": 0,
+          "tax": 0,
+          "subtotal": 100
+        }
+      }
+    }
+  ],
+  "redirectUrl": {
+    "success": "https://www.merchantsite.com/success",
+    "failure": "https://www.merchantsite.com/failure",
+    "cancel": "https://www.merchantsite.com/cancel"
+  },
+  "requestReferenceNumber": "1551191039",
+  "metadata": {}
+}
+```
+
+---
+
+#### `createWalletLink(walletLinkrequestObject)`
+This method creates wallet link that allows charging to a Paymaya account.
+
+`walletLinkRequestObject` properties:
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| redirectUrl | object | | Object containing merchant's callback urls |
+| redirectUrl.success | string | | Url that the user will be redirected on after successful payment |
+| redirectUrl.failure | string | | Url that the user will be redirected on after failed payment |
+| redirectUrl.cancel | string | | Url that the user will be redirected on after canceled payment |
+| requestReferenceNumber | string | | Request reference number |
+| metadata | object | No | Additional information regarding payment |
+
+---
+
+#### `createSinglePayment(singlePaymentRequestObject)`
+This method creates single payment redirection, allowing user to finalize transaction on PayMaya gate. 
+
+`createSinglePayment` properties:
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| totalAmount | object | | Object containing payment amount |
+| totalAmount.currency | string | | Currency of transaction |
+| totalAmount.value | string | | Value of transaction |
+| redirectUrl | object | | Object containing merchant's callback urls |
+| redirectUrl.success | string | | Url that the user will be redirected on after successful payment |
+| redirectUrl.failure | string | | Url that the user will be redirected on after failed payment |
+| redirectUrl.cancel | string | | Url that the user will be redirected on after canceled payment |
+| requestReferenceNumber | string | | Request reference number |
+| metadata | object | | Additional information regarding payment |
 
 
-#### createWalletLink
 
-#### createSinglePayment
-
-#### initCardForm
-This method inserts credit card form inputs into designated html element, making it possible for user to input his credit card information.
-
-| Parameter             | Type   | Description                                                       |
-|-----------------------|--------|-------------------------------------------------------------------|
-| targetHtmlElement | HTMLElement | An html element that you want form to be inserted into. |
