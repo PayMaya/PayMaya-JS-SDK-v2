@@ -5,6 +5,9 @@ export default class PayMayaClientSDK {
       PayMayaClientSDK.instance = this;
     }
     this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
+    this.iframeInstance = document.createElement('iframe');
+    this.creditCardTransactionId = '';
+    this.listenForIframeUrlChange(this.iframeInstance);
     this.publicKey = publicKey;
     this.fetchConfigHeaders = {
       headers: {
@@ -29,6 +32,18 @@ export default class PayMayaClientSDK {
     return response;
   }
 
+  listenForIframeUrlChange(iframeElement) {
+    iframeElement.addEventListener('load', (event) => {
+      // TODO: remove console log
+      console.log(event);
+      this.creditCardTransactionId = event;
+    })
+  }
+
+  getTransactionId() {
+    return this.creditCardTransactionId;
+  }
+
   async createCheckout(checkoutRequestObject) {
     const response = this._genericRequestFn('POST', checkoutRequestObject, '/checkout/v1/checkouts');
     window.location.href = response.redirectUrl;
@@ -42,5 +57,13 @@ export default class PayMayaClientSDK {
   async createSinglePayment(singlePaymentRequestObject) {
     const response = this._genericRequestFn('POST', singlePaymentRequestObject, '/payby/v2/paymaya/payments');
     window.location.href = response.redirectUrl;
+  }
+  createCreditCardForm(targetHtmlElement) {
+    this.iframeInstance.setAttribute('id', 'paymaya-card-form');
+    // TODO: switch url
+    this.iframeInstance.setAttribute('src', 'https://fr.wikipedia.org/wiki/Main_Page');
+    // TODO: remove sandbox mode
+    this.iframeInstance.setAttribute('sandbox', 'allow-same-origin');
+    targetHtmlElement.appendChild(this.iframeInstance);
   }
 }
