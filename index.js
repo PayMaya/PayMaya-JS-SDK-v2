@@ -7,7 +7,7 @@ export default class PayMayaClientSDK {
     this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
     this.iframeInstance = document.createElement('iframe');
     this.creditCardTransactionId = '';
-    this.listenForIframeUrlChange(this.iframeInstance);
+    this.listenForIframeMessage();
     this.publicKey = publicKey;
     this.fetchConfigHeaders = {
       headers: {
@@ -32,11 +32,11 @@ export default class PayMayaClientSDK {
     return response;
   }
 
-  listenForIframeUrlChange(iframeElement) {
-    iframeElement.addEventListener('load', (event) => {
-      // TODO: remove console log
-      console.log(event);
-      this.creditCardTransactionId = event;
+  listenForIframeMessage() {
+    //TODO: confirm url origin
+    window.addEventListener('message', (event) => {
+      const data = JSON.parse(event.data);
+      this.creditCardTransactionId = data.paymentTokenId;
     })
   }
 
@@ -61,7 +61,7 @@ export default class PayMayaClientSDK {
   createCreditCardForm(targetHtmlElement) {
     this.iframeInstance.setAttribute('id', 'paymaya-card-form');
     // TODO: switch url
-    this.iframeInstance.setAttribute('src', 'https://fr.wikipedia.org/wiki/Main_Page');
+    this.iframeInstance.setAttribute('src', 'https://codingspace.atthouse.pl');
     // TODO: remove sandbox mode
     this.iframeInstance.setAttribute('sandbox', 'allow-same-origin');
     targetHtmlElement.appendChild(this.iframeInstance);
