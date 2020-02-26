@@ -4,10 +4,10 @@ export default class PayMayaClientSDK {
     if (!PayMayaClientSDK.instance) {
       PayMayaClientSDK.instance = this;
     }
+    this.isSandbox = isSandbox;
     this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
-    this.iframeInstance = document.createElement('iframe');
     this.creditCardTransactionId = '';
-    this.listenForIframeUrlChange(this.iframeInstance);
+    this.listenForIframeMessage();
     this.publicKey = publicKey;
     this.fetchConfigHeaders = {
       headers: {
@@ -26,17 +26,18 @@ export default class PayMayaClientSDK {
     };
     const apiCall = await fetch(`${this.apiUrl}${url}`, config);
     const response = await apiCall.json();
-    if (response.code !== undefined) {
-      throw response.parameters;
+    if (apiCall.status === 200 && response.redirectUrl !== undefined && response.redirectUrl !== '') {
+      return response;
+    } else {
+      throw response
     }
-    return response;
   }
 
-  listenForIframeUrlChange(iframeElement) {
-    iframeElement.addEventListener('load', (event) => {
-      // TODO: remove console log
-      console.log(event);
-      this.creditCardTransactionId = event;
+  listenForIframeMessage() {
+    //TODO: IMPORTANT -- confirm url origin
+    window.addEventListener('message', (event) => {
+      const data = JSON.parse(event.data);
+      this.creditCardTransactionId = data.paymentTokenId;
     })
   }
 
@@ -45,25 +46,25 @@ export default class PayMayaClientSDK {
   }
 
   async createCheckout(checkoutRequestObject) {
-    const response = this._genericRequestFn('POST', checkoutRequestObject, '/checkout/v1/checkouts');
+    const response = await this._genericRequestFn('POST', checkoutRequestObject, '/checkout/v1/checkouts');
     window.location.href = response.redirectUrl;
   }
 
   async createWalletLink(walletLinkRequestObject) {
-    const response = this._genericRequestFn('POST', walletLinkRequestObject, '/payby/v2/paymaya/link');
+    const response = await this._genericRequestFn('POST', walletLinkRequestObject, '/payby/v2/paymaya/link');
     window.location.href = response.redirectUrl;
   }
 
   async createSinglePayment(singlePaymentRequestObject) {
-    const response = this._genericRequestFn('POST', singlePaymentRequestObject, '/payby/v2/paymaya/payments');
+    const response = await this._genericRequestFn('POST', singlePaymentRequestObject, '/payby/v2/paymaya/payments');
     window.location.href = response.redirectUrl;
   }
+
   createCreditCardForm(targetHtmlElement) {
-    this.iframeInstance.setAttribute('id', 'paymaya-card-form');
+    const iframeInstance = document.createElement('iframe');
+    iframeInstance.setAttribute('id', 'paymaya-card-form');
     // TODO: switch url
-    this.iframeInstance.setAttribute('src', 'https://fr.wikipedia.org/wiki/Main_Page');
-    // TODO: remove sandbox mode
-    this.iframeInstance.setAttribute('sandbox', 'allow-same-origin');
-    targetHtmlElement.appendChild(this.iframeInstance);
+    iframeInstance.setAttribute('src', `https://codingspace.atthouse.pl/?sandbox=${this.isSandbox ? 'true' : 'false'}&publicKey=${btoa(this.publicKey)}`);
+    targetHtmlElement.appendChild(iframeInstance);
   }
 }
