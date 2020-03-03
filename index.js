@@ -6,8 +6,6 @@ export default class PayMayaClientSDK {
     }
     this.isSandbox = isSandbox;
     this.apiUrl = isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
-    this.creditCardTransactionId = '';
-    this.listenForIframeMessage();
     this.publicKey = publicKey;
     this.fetchConfigHeaders = {
       headers: {
@@ -33,16 +31,13 @@ export default class PayMayaClientSDK {
     }
   }
 
-  listenForIframeMessage() {
-    //TODO: IMPORTANT -- confirm url origin
+  getTransactionId(callback) {
     window.addEventListener('message', (event) => {
-      const data = JSON.parse(event.data);
-      this.creditCardTransactionId = data.paymentTokenId;
+      if (event.origin === 'https://codingspace.atthouse.pl') {
+        const data = JSON.parse(event.data);
+        callback(data.paymentTokenId)
+      }
     })
-  }
-
-  getTransactionId() {
-    return this.creditCardTransactionId;
   }
 
   async createCheckout(checkoutRequestObject) {
@@ -60,6 +55,7 @@ export default class PayMayaClientSDK {
     window.location.href = response.redirectUrl;
   }
 
+  // TODO: delete iframeUrl param
   createCreditCardForm(targetHtmlElement) {
     const iframeInstance = document.createElement('iframe');
     iframeInstance.setAttribute('id', 'paymaya-card-form');

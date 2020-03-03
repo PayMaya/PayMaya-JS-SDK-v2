@@ -151,4 +151,7 @@ This method creates single payment redirection, allowing user to finalize transa
 | metadata | object | | Additional information regarding payment |
 
 
+---
 
+#### `getTransactionId(callback)`
+This
