@@ -4,14 +4,17 @@ This is web SDK for PayMaya payment gate. It helps dealing with payments on clie
 
 ## Install
 
---- to be done ---
+You can either download it via NPM:
+
+`npm install --save paymaya-sdk`
+
 
 ## Run
 
 You can either import it like:
 
 ```javascript
-import payMayaSDK from 'paymayaSDK'
+import PaymayaSdkClient from 'paymaya-sdk'
 ```
 
 or simply include it in your script tag on your HTML site:
@@ -151,4 +154,30 @@ This method creates single payment redirection, allowing user to finalize transa
 | metadata | object | | Additional information regarding payment |
 
 
+---
 
+#### `getTransactionId(callback)`
+This method assigns listener for credit card form method (`createdCreditCardForm`) - whenever user fills all the information required (cvc, credit card number and expiry date) and then tokenize that data, a `callback` will be fired with payment token.
+
+`getTransationId` properties: 
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| callback | function | | function that will be fired once credit card form is tokenized |
+
+`callback(paymentTokenId)` properties:
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| paymentTokenId | string | | a string that will be passed as argument to merchant's callback function |
+
+---
+
+#### `createCreditCardForm(targetHtmlElement)`
+This method created credit card form in selected html element, by embedding a safe iframe instance in it - allowing user to fill his credit card information in a safe manner.
+
+`createdCreditCardForm` properties: 
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| targetHtmlElement | HTMLElement | | a target html element in which form will be embedded |
