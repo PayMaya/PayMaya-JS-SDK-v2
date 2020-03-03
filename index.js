@@ -31,6 +31,7 @@ export default class PayMayaClientSDK {
     }
   }
 
+  // TODO: switch url compare value
   getTransactionId(callback) {
     window.addEventListener('message', (event) => {
       if (event.origin === 'https://codingspace.atthouse.pl') {
@@ -55,7 +56,6 @@ export default class PayMayaClientSDK {
     window.location.href = response.redirectUrl;
   }
 
-  // TODO: delete iframeUrl param
   createCreditCardForm(targetHtmlElement) {
     const iframeInstance = document.createElement('iframe');
     iframeInstance.setAttribute('id', 'paymaya-card-form');
