@@ -33,6 +33,10 @@ export default class PayMayaClientSDK {
 
   // TODO: switch url compare value
   getTransactionId(callback) {
+    if (callback === undefined || {}.toString.call(callback) !== '[object Function]') {
+      console.error('ERROR - PayMayaSDK: createCreditCardForm - you must pass callback function!');
+      return
+    }
     window.addEventListener('message', (event) => {
       if (event.origin === 'https://codingspace.atthouse.pl') {
         const data = JSON.parse(event.data);
@@ -56,11 +60,15 @@ export default class PayMayaClientSDK {
     window.location.href = response.redirectUrl;
   }
 
-  createCreditCardForm(targetHtmlElement) {
+  createCreditCardForm(targetHtmlElement, options) {
+    if (targetHtmlElement === undefined || !(targetHtmlElement instanceof HTMLElement)) {
+      console.error('ERROR - PayMayaSDK: createCreditCardForm - you must pass target html Element!');
+      return
+    }
     const iframeInstance = document.createElement('iframe');
     iframeInstance.setAttribute('id', 'paymaya-card-form');
     // TODO: switch url
-    iframeInstance.setAttribute('src', `https://codingspace.atthouse.pl/?sandbox=${this.isSandbox ? 'true' : 'false'}&publicKey=${btoa(this.publicKey)}`);
+    iframeInstance.setAttribute('src', `https://codingspace.atthouse.pl/?sandbox=${this.isSandbox ? 'true' : 'false'}&publicKey=${btoa(this.publicKey)}&options=${JSON.stringify(options)}`);
     targetHtmlElement.appendChild(iframeInstance);
   }
 }

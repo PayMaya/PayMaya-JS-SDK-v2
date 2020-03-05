@@ -163,7 +163,7 @@ This method assigns listener for credit card form method (`createdCreditCardForm
 
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
-| callback | function | | function that will be fired once credit card form is tokenized |
+| callback | function | Yes | function that will be fired once credit card form is tokenized |
 
 `callback(paymentTokenId)` properties:
 
@@ -173,11 +173,17 @@ This method assigns listener for credit card form method (`createdCreditCardForm
 
 ---
 
-#### `createCreditCardForm(targetHtmlElement)`
+#### `createCreditCardForm(targetHtmlElement, options)`
 This method created credit card form in selected html element, by embedding a safe iframe instance in it - allowing user to fill his credit card information in a safe manner.
 
 `createdCreditCardForm` properties: 
 
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
-| targetHtmlElement | HTMLElement | | a target html element in which form will be embedded |
+| targetHtmlElement | HTMLElement | Yes | a target html element in which form will be embedded |
+| options | object | No | options object containing styling schema |
+| options.buttonText | string | No | label text for a button inside the form |
+| options.buttonColor | string | No | button color (example: '#000') |
+| options.buttonTextColor | string | No | button text color (example: '#000') |
+| options.showLogo | boolean | No | boolean whether to show PayMaya logo or not |
+
