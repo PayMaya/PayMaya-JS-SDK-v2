@@ -34,7 +34,8 @@ export default class PayMayaClientSDK {
   // TODO: switch url compare value
   getTransactionId(callback) {
     if (callback === undefined || {}.toString.call(callback) !== '[object Function]') {
-      return throw new Error('You must pass callback function!')
+      console.error('ERROR - PayMayaSDK: createCreditCardForm - you must pass callback function!');
+      return
     }
     window.addEventListener('message', (event) => {
       if (event.origin === 'https://codingspace.atthouse.pl') {
@@ -61,7 +62,8 @@ export default class PayMayaClientSDK {
 
   createCreditCardForm(targetHtmlElement, options) {
     if (targetHtmlElement === undefined || !(targetHtmlElement instanceof HTMLElement)) {
-      return throw new Error('You must pass target html Element!')
+      console.error('ERROR - PayMayaSDK: createCreditCardForm - you must pass target html Element!');
+      return
     }
     const iframeInstance = document.createElement('iframe');
     iframeInstance.setAttribute('id', 'paymaya-card-form');
