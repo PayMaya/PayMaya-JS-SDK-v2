@@ -46,7 +46,7 @@ class PayMayaSDK {
     }
 
     // TODO: switch url compare value
-    public getTransactionId(callback: (arg: string) => void) {
+    public addTransactionHandler(callback: (arg: string) => void) {
         try {
             this.checkIfInitialized();
             this.checkData({}.toString.call(callback) === '[object Function]');
