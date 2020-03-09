@@ -4,9 +4,12 @@ This is web SDK for PayMaya payment gate. It helps dealing with payments on clie
 
 ## Install
 
-You can either download it via NPM:
 
 `npm install --save paymaya-sdk`
+
+or
+
+`yarn add paymaya-sdk`
 
 
 ## Run
@@ -23,14 +26,74 @@ or simply include it in your script tag on your HTML site:
 <script src="https://paymayabucket.com/paymaya-minified.js"></script>
 ```
 
-## Available methods
+NOTE: when including via script tags, globally available variable for SDK is `PayMayaSDK`
 
-After including PayMaya SDK library in your code, you should be able to access `PayMayaClientSDK` class. Instance of this class allows you to use 3 available methods for dealing with PayMaya payments on your website.
+## Usage
+
+Before using any of publicly available methods, you need to initialize SDK by using `init` method (you only need to do this once in app's lifetime).
+
+React:
+```js
+import paymaya from 'paymaya-sdk';
+
+function App() {
+  const exampleCheckoutObject = {};
+  useEffect(() => {
+    paymaya.init('my-public-key', true);
+    paymaya.createCheckout(exampleCheckoutObject);
+  }, []);
+  return (
+      <div>
+        <div>Test App</div>
+      </div>
+  );
+}
+```
+
+or vanilla js
+```js
+    <script>
+      const myExampleObject = {};
+      PayMayaSDK.init('my-public-key', true);
+      PayMayaSDK.createCheckout(myExampleObject);
+    </script>
+```
+
+## SDK API
+
+* [init](#initpublickey-issandbox)
+* [createCheckout](#createcheckoutcheckoutrequestobject)
+
+* [createWalletLink](#createwalletlinkwalletlinkrequestobject)
+
+* [createSinglePayment](#createsinglepaymentsinglepaymentrequestobject)
+
+* [addTransactionHandler](#addtransactionhandlercallback)
+
+* [createCreditCardForm](#createcreditcardformtargethtmlelement-options)
+
+---
+
+#### `init(publicKey, isSandbox)`
+This method initializes SDK. It must be run before other methods are being used.
+
+Returns: `void`
+
+`init` properties:
+
+| Parameter             | Type   | Required | Description                                                       |
+|-----------------------|--------|----------|--------------------------------------------------------|
+| publicKey | string | Yes | Public API key delivered by PayMaya. |
+| isSandbox | boolean | No | Boolean that indicates whether SDK should use sandbox environment or not. Defaults to true, if you supplied. |
+
+---
 
 #### `createCheckout(checkoutRequestObject)`
 This method redirects user to paymaya checkout gate, where user can finalize his payments.
 
-`checkoutRequestObject` properties are defined defined [here](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject). 
+Returns: `Promise<void>`
+
+`checkoutRequestObject` properties are defined [here](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject). 
 
 Example `checkoutRequestObject`:
 ```json
@@ -123,6 +186,8 @@ Example `checkoutRequestObject`:
 #### `createWalletLink(walletLinkrequestObject)`
 This method creates wallet link that allows charging to a Paymaya account.
 
+Returns `Promise<void>`
+
 `walletLinkRequestObject` properties:
 
 | Parameter             | Type   | Required | Description                                                       |
@@ -138,6 +203,8 @@ This method creates wallet link that allows charging to a Paymaya account.
 
 #### `createSinglePayment(singlePaymentRequestObject)`
 This method creates single payment redirection, allowing user to finalize transaction on PayMaya gate. 
+
+Returns `Promise<void>`
 
 `createSinglePayment` properties:
 
@@ -156,10 +223,19 @@ This method creates single payment redirection, allowing user to finalize transa
 
 ---
 
-#### `getTransactionId(callback)`
-This method assigns listener for credit card form method (`createdCreditCardForm`) - whenever user fills all the information required (cvc, credit card number and expiry date) and then tokenize that data, a `callback` will be fired with payment token.
+#### `addTransactionHandler(callback)`
+This method assigns listener for credit card form method [createdCreditCardForm](#createcreditcardformtargethtmlelement-options) - whenever user fills all the information required (cvc, credit card number and expiry date) and then tokenize that data, a `callback` will be fired with payment token.
 
-`getTransationId` properties: 
+Returns `void`
+
+Example usage: 
+
+```js
+sdk
+  .createCreditCardForm(iframeContainer, {})
+  .addTransactionHandler((paymentTokenId) => this.setState({open: true, iframe: true, bodyResponse: {paymentTokenId}}))
+```
+`addTransactionHandler` properties: 
 
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
@@ -175,6 +251,8 @@ This method assigns listener for credit card form method (`createdCreditCardForm
 
 #### `createCreditCardForm(targetHtmlElement, options)`
 This method created credit card form in selected html element, by embedding a safe iframe instance in it - allowing user to fill his credit card information in a safe manner.
+
+Returns `void`
 
 `createdCreditCardForm` properties: 
 
