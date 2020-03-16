@@ -8,7 +8,7 @@ class PaymentMethods extends Component {
     constructor(props){
         super(props);
         this.state = {
-            open: false, 
+            open: false,
             loading: false,
             requestReferenceNumber: "6319921",
             items: [
@@ -19,7 +19,7 @@ class PaymentMethods extends Component {
                         value: '100'
                     }
                 }
-    
+
             ],
             totalAmount: {
                 value: '100',
@@ -44,9 +44,9 @@ class PaymentMethods extends Component {
         paymaya.init('pk-MOfNKu3FmHMVHtjyjG7vhr7vFevRkWxmxYL1Yq6iFk5', true)
         const iframeContainer = document.getElementById("iframe-container")
         paymaya.createCreditCardForm(iframeContainer)
-        paymaya.getTransactionId( (paymentTokenId) => this.setState({open: true, bodyResponse: {paymentTokenId}}))
+        paymaya.addTransactionHandler( (paymentTokenId) => this.setState({open: true, bodyResponse: {paymentTokenId}}))
     }
-    
+
     onCloseModal = () => {
         this.setState({
             open: false,
@@ -81,5 +81,5 @@ class PaymentMethods extends Component {
         );
     }
 }
-  
+
 export default PaymentMethods;

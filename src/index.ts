@@ -9,6 +9,7 @@ class PayMayaSDK {
     private publicKey: string = '';
     private isSandbox: boolean = true;
     private apiUrl: string = this.isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
+    private formUrl: string = this.isSandbox ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html' : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
 
     public init(publicKey: string, isSandbox: boolean) {
         this.publicKey = btoa(publicKey);
@@ -51,7 +52,7 @@ class PayMayaSDK {
             this.checkIfInitialized();
             this.checkData({}.toString.call(callback) === '[object Function]');
             window.addEventListener('message', (event) => {
-                if (event.origin === 'https://codingspace.atthouse.pl') {
+                if (event.origin === 'https://paymayajs-staging.s3.amazonaws.com' || event.origin === 'https://paymayajs.s3.amazonaws.com') {
                     const data = JSON.parse(event.data);
                     callback(data.paymentTokenId)
                 }
@@ -70,6 +71,7 @@ class PayMayaSDK {
             window.location.href = response.redirectUrl;
         } catch (e) {
             console.error(e);
+            console.error('SDK: createCheckout(checkoutRequestObject) - error');
         }
     }
 
@@ -79,7 +81,8 @@ class PayMayaSDK {
             const response = await this.genericRequestFn('POST', walletLinkRequestObject, '/payby/v2/paymaya/link');
             window.location.href = response.redirectUrl;
         } catch (e) {
-            console.error(e)
+            console.error(e);
+            console.error('SDK: createWalletLink(walletLinkRequestObject) - error');
         }
     }
 
@@ -89,7 +92,8 @@ class PayMayaSDK {
             const response = await this.genericRequestFn('POST', singlePaymentRequestObject, '/payby/v2/paymaya/payments');
             window.location.href = response.redirectUrl;
         } catch (e) {
-            console.error(e)
+            console.error(e);
+            console.error('SDK: createSinglePayment(singlePaymentRequestObject) - error');
         }
     }
 
@@ -99,13 +103,12 @@ class PayMayaSDK {
             this.checkData(targetHtmlElement instanceof HTMLElement);
             const iframeInstance = document.createElement('iframe');
             iframeInstance.setAttribute('id', 'paymaya-card-form');
-            // TODO: switch url
-            iframeInstance.setAttribute('src', `https://codingspace.atthouse.pl/?sandbox=${String(this.isSandbox)}&publicKey=${this.publicKey}&options=${JSON.stringify(options)}`);
+            iframeInstance.setAttribute('src', `${this.formUrl}?sandbox=${String(this.isSandbox)}&publicKey=${this.publicKey}&options=${JSON.stringify(options)}`);
             targetHtmlElement.appendChild(iframeInstance);
             return this;
         } catch (e) {
             console.error(e);
-            console.error('SDK: createCreditCardform(targetHtmlElement, options) - targetHtmlElement must be an appendable html element');
+            console.error('SDK: createCreditCardform(targetHtmlElement, options) - error');
         }
 
     }
