@@ -17,13 +17,13 @@ or
 You can either import it like:
 
 ```javascript
-import PaymayaSdkClient from 'paymaya-sdk'
+import PaymayaSdkClient from 'paymaya-sdk-ts'
 ```
 
 or simply include it in your script tag on your HTML site:
 
 ```html
-<script src="https://paymayabucket.com/paymaya-minified.js"></script>
+<script src="https://unpkg.com/paymaya-sdk-ts@1.0.13/bundle.js"></script>
 ```
 
 NOTE: when including via script tags, globally available variable for SDK is `PayMayaSDK`
@@ -34,7 +34,7 @@ Before using any of publicly available methods, you need to initialize SDK by us
 
 React:
 ```js
-import paymaya from 'paymaya-sdk';
+import paymaya from 'paymaya-sdk-ts';
 
 function App() {
   const exampleCheckoutObject = {};
@@ -62,6 +62,7 @@ or vanilla js
 ## SDK API
 
 * [init](#initpublickey-issandbox)
+
 * [createCheckout](#createcheckoutcheckoutrequestobject)
 
 * [createWalletLink](#createwalletlinkwalletlinkrequestobject)

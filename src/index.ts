@@ -9,7 +9,7 @@ class PayMayaSDK {
     private publicKey: string = '';
     private isSandbox: boolean = true;
     private apiUrl: string = this.isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
-    private formUrl: string = this.isSandbox ? 'https://paymayajs.s3.amazonaws.com/dist/index.html' : 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html';
+    private formUrl: string = this.isSandbox ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html' : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
 
     public init(publicKey: string, isSandbox: boolean) {
         this.publicKey = btoa(publicKey);
