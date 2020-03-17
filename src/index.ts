@@ -12,7 +12,7 @@ class PayMayaSDK {
     private formUrl: string = this.isSandbox ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html' : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
 
     public init(publicKey: string, isSandbox: boolean) {
-        this.publicKey = btoa(publicKey);
+        this.publicKey = publicKey;
         this.isSandbox = isSandbox;
     }
 
@@ -32,7 +32,7 @@ class PayMayaSDK {
         const config = {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${this.publicKey}`
+                'Authorization': `Basic ${btoa(this.publicKey)}`
             },
             method: requestMethod,
             body: JSON.stringify(requestBody)
@@ -110,7 +110,6 @@ class PayMayaSDK {
             console.error(e);
             console.error('SDK: createCreditCardform(targetHtmlElement, options) - error');
         }
-
     }
 }
 

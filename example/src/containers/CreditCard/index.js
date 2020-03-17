@@ -43,8 +43,9 @@ class PaymentMethods extends Component {
     createCreditCardForm = () => {
         paymaya.init('pk-MOfNKu3FmHMVHtjyjG7vhr7vFevRkWxmxYL1Yq6iFk5', true)
         const iframeContainer = document.getElementById("iframe-container")
-        paymaya.createCreditCardForm(iframeContainer)
-        paymaya.addTransactionHandler( (paymentTokenId) => this.setState({open: true, bodyResponse: {paymentTokenId}}))
+        paymaya
+            .createCreditCardForm(iframeContainer)
+            .addTransactionHandler((paymentTokenId) => this.setState({open: true, bodyResponse: {paymentTokenId}}))
     }
 
     onCloseModal = () => {
