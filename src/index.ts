@@ -103,7 +103,7 @@ class PayMayaSDK {
             this.checkData(targetHtmlElement instanceof HTMLElement);
             const iframeInstance = document.createElement('iframe');
             iframeInstance.setAttribute('id', 'paymaya-card-form');
-            iframeInstance.setAttribute('src', `${this.formUrl}?sandbox=${String(this.isSandbox)}&publicKey=${this.publicKey}&options=${JSON.stringify(options)}`);
+            iframeInstance.setAttribute('src', `${this.formUrl}?sandbox=${String(this.isSandbox)}&publicKey=${this.publicKey}&options=${options ? JSON.stringify(options) : ''}`);
             targetHtmlElement.appendChild(iframeInstance);
             return this;
         } catch (e) {
