@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import paymaya from 'paymaya-sdk-ts'
+import paymaya from 'paymaya-js-sdk'
 import Modal from 'react-responsive-modal'
 
 import { isEmptyObject } from '../../utils'
