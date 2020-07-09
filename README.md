@@ -1,6 +1,6 @@
 ## Overview
 
-This is web SDK for PayMaya payment gate. It helps dealing with payments on client side. 
+Official client side SDK by PayMaya Payment Gateway. For assistance you may reach us through paymayadevs@voyager.ph
 
 ## Install
 
@@ -20,17 +20,17 @@ You can either import it like:
 import PaymayaSdkClient from 'paymaya-js-sdk'
 ```
 
-or simply include it in your script tag on your HTML site:
+or simply include it through a script tag on your HTML site:
 
 ```html
-<script src="https://unpkg.com/paymaya-js-sdk@2.0.0/bundle.js"></script>
+<script src="https://unpkg.com/paymaya-js-sdk@2.0.0/dist/bundle.js"></script>
 ```
 
-NOTE: when including via script tags, globally available variable for SDK is `PayMayaSDK`
+NOTE: when including via script tags, the SDK is globally available using the variable `PayMayaSDK`
 
 ## Usage
 
-Before using any of publicly available methods, you need to initialize SDK by using `init` method (you only need to do this once in app's lifetime).
+Before using any of the publicly available methods, you need to initialize the SDK by using the `init` method (you only need to do this once in app's lifetime).
 
 React:
 ```js
@@ -90,7 +90,7 @@ Returns: `void`
 ---
 
 #### `createCheckout(checkoutRequestObject)`
-This method redirects user to paymaya checkout gate, where user can finalize his payments.
+This method redirects the user to PayMaya Checkout, where the user can finalize his/her payment.
 
 Returns: `Promise<void>`
 
@@ -185,7 +185,7 @@ Example `checkoutRequestObject`:
 ---
 
 #### `createWalletLink(walletLinkrequestObject)`
-This method creates wallet link that allows charging to a Paymaya account.
+This method creates a wallet link that allows charging to a PayMaya account.
 
 Returns `Promise<void>`
 
@@ -203,7 +203,7 @@ Returns `Promise<void>`
 ---
 
 #### `createSinglePayment(singlePaymentRequestObject)`
-This method creates single payment redirection, allowing user to finalize transaction on PayMaya gate. 
+This method creates a single payment redirection, allowing the user to finalize the transaction. 
 
 Returns `Promise<void>`
 
@@ -225,7 +225,7 @@ Returns `Promise<void>`
 ---
 
 #### `addTransactionHandler(callback)`
-This method assigns listener for credit card form method [createdCreditCardForm](#createcreditcardformtargethtmlelement-options) - whenever user fills all the information required (cvc, credit card number and expiry date) and then tokenize that data, a `callback` will be fired with payment token.
+This method assigns a listener for credit card form method [createdCreditCardForm](#createcreditcardformtargethtmlelement-options) - whenever the user fills all the information required (cvc, credit card number and expiry date) and then tokenizes that data, a `callback` will be fired with payment token.
 
 Returns `void`
 
@@ -251,7 +251,7 @@ sdk
 ---
 
 #### `createCreditCardForm(targetHtmlElement, options)`
-This method created credit card form in selected html element, by embedding a safe iframe instance in it - allowing user to fill his credit card information in a safe manner.
+This method creates a credit card form in selected html element, by embedding a safe iframe instance in it - allowing the user to fill his credit card information in a safe manner.
 
 Returns `void`
 
