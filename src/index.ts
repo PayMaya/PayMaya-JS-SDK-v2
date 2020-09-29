@@ -18,7 +18,7 @@ class PayMayaSDK {
 
     private checkData(data: any) {
         if (!data) {
-            throw Error()
+            throw Error();
         }
     }
 
@@ -37,12 +37,18 @@ class PayMayaSDK {
             method: requestMethod,
             body: JSON.stringify(requestBody)
         };
+
         const apiCall = await fetch(`${this.apiUrl}${url}`, config);
         const response = await apiCall.json();
-        if (apiCall.status === 200 && response.redirectUrl !== undefined && response.redirectUrl !== '') {
+
+        if (
+            apiCall.status === 200
+            && response.redirectUrl !== undefined
+            && response.redirectUrl !== ''
+        ) {
             return response;
         } else {
-            throw response
+            throw response;
         }
     }
 
@@ -54,9 +60,9 @@ class PayMayaSDK {
             window.addEventListener('message', (event) => {
                 if (event.origin === 'https://paymayajs-staging.s3.amazonaws.com' || event.origin === 'https://paymayajs.s3.amazonaws.com') {
                     const data = JSON.parse(event.data);
-                    callback(data.paymentTokenId)
+                    callback(data.paymentTokenId);
                 }
-            })
+            });
         } catch (e) {
             console.error(e);
             console.error('SDK: addTransactionHandler(callback) - callback must be a function')
