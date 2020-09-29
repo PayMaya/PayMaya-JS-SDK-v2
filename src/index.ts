@@ -59,7 +59,7 @@ class PayMayaSDK {
             })
         } catch (e) {
             console.error(e);
-            console.error('SDK: getTransactionId(callback) - callback must be a function')
+            console.error('SDK: addTransactionHandler(callback) - callback must be a function')
         }
 
     }
