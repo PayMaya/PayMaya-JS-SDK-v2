@@ -8,12 +8,25 @@ import {
 class PayMayaSDK {
     private publicKey: string = '';
     private isSandbox: boolean = true;
-    private apiUrl: string = this.isSandbox ? 'https://pg-sandbox.paymaya.com' : 'https://pg.paymaya.com';
-    private formUrl: string = this.isSandbox ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html' : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
+    private apiUrl: string = '';
+    private formUrl: string = '';
+    private eventOrigin: string = '';
 
     public init(publicKey: string, isSandbox: boolean) {
         this.publicKey = publicKey;
         this.isSandbox = isSandbox;
+
+        this.apiUrl = this.isSandbox
+            ? 'https://pg-sandbox.paymaya.com'
+            : 'https://pg.paymaya.com';
+
+        this.formUrl = this.isSandbox
+            ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html'
+            : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
+
+        this.eventOrigin = this.isSandbox
+            ? 'https://paymayajs-staging.s3.amazonaws.com'
+            : 'https://paymayajs.s3.amazonaws.com';
     }
 
     private checkData(data: any) {
@@ -23,8 +36,13 @@ class PayMayaSDK {
     }
 
     private checkIfInitialized() {
-        if (this.publicKey === '') {
-            throw Error('You must first run init() method!')
+        if (
+            this.publicKey === ''
+            || this.apiUrl === ''
+            || this.formUrl === ''
+            || this.eventOrigin === ''
+        ) {
+            throw Error('You must first run init() method!');
         }
     }
 
@@ -52,13 +70,12 @@ class PayMayaSDK {
         }
     }
 
-    // TODO: switch url compare value
     public addTransactionHandler(callback: (arg: string) => void) {
         try {
             this.checkIfInitialized();
             this.checkData({}.toString.call(callback) === '[object Function]');
             window.addEventListener('message', (event) => {
-                if (event.origin === 'https://paymayajs-staging.s3.amazonaws.com' || event.origin === 'https://paymayajs.s3.amazonaws.com') {
+                if (event.origin === this.eventOrigin) {
                     const data = JSON.parse(event.data);
                     callback(data.paymentTokenId);
                 }
@@ -67,7 +84,6 @@ class PayMayaSDK {
             console.error(e);
             console.error('SDK: addTransactionHandler(callback) - callback must be a function')
         }
-
     }
 
     public async createCheckout(checkoutRequestObject: CreateCheckoutObject) {
