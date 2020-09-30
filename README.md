@@ -85,7 +85,7 @@ Returns: `void`
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
 | publicKey | string | Yes | Public API key delivered by PayMaya. |
-| isSandbox | boolean | No | Boolean that indicates whether SDK should use sandbox environment or not. Defaults to true, if you supplied. |
+| isSandbox | boolean | No | Boolean that indicates whether SDK should use sandbox environment or not. Defaults to `true`, if not supplied. |
 
 ---
 
@@ -94,7 +94,7 @@ This method redirects the user to PayMaya Checkout, where the user can finalize 
 
 Returns: `Promise<void>`
 
-`checkoutRequestObject` properties are defined [here](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject). 
+`checkoutRequestObject` properties are defined [here](https://developers.paymaya.com/blog/entry/paymaya-checkout-api-overview#checkoutObject).
 
 Example `checkoutRequestObject`:
 ```json
@@ -203,7 +203,7 @@ Returns `Promise<void>`
 ---
 
 #### `createSinglePayment(singlePaymentRequestObject)`
-This method creates a single payment redirection, allowing the user to finalize the transaction. 
+This method creates a single payment redirection, allowing the user to finalize the transaction.
 
 Returns `Promise<void>`
 
@@ -229,14 +229,14 @@ This method assigns a listener for credit card form method [createdCreditCardFor
 
 Returns `void`
 
-Example usage: 
+Example usage:
 
 ```js
 sdk
   .createCreditCardForm(iframeContainer, {})
   .addTransactionHandler((paymentTokenId) => this.setState({open: true, iframe: true, bodyResponse: {paymentTokenId}}))
 ```
-`addTransactionHandler` properties: 
+`addTransactionHandler` properties:
 
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
@@ -255,7 +255,7 @@ This method creates a credit card form in selected html element, by embedding a 
 
 Returns `void`
 
-`createdCreditCardForm` properties: 
+`createdCreditCardForm` properties:
 
 | Parameter             | Type   | Required | Description                                                       |
 |-----------------------|--------|----------|--------------------------------------------------------|
