@@ -5,11 +5,11 @@ Official client side SDK by PayMaya Payment Gateway. For assistance you may reac
 ## Install
 
 
-`npm install --save paymaya-sdk`
+`npm install --save paymaya-js-sdk`
 
 or
 
-`yarn add paymaya-sdk`
+`yarn add paymaya-js-sdk`
 
 
 ## Run
