@@ -1,8 +1,6 @@
-tsconfig.json
-src
-dist
-rollup.config.js
-index.html
 .idea
-
+index.html
 node_modules
+rollup.config.js
+src
+tsconfig.json
