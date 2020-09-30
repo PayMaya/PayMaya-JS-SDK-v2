@@ -16,17 +16,15 @@ class PayMayaSDK {
         this.publicKey = publicKey;
         this.isSandbox = isSandbox;
 
-        this.apiUrl = this.isSandbox
-            ? 'https://pg-sandbox.paymaya.com'
-            : 'https://pg.paymaya.com';
-
-        this.formUrl = this.isSandbox
-            ? 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html'
-            : 'https://paymayajs.s3.amazonaws.com/dist/index.html';
-
-        this.eventOrigin = this.isSandbox
-            ? 'https://paymayajs-staging.s3.amazonaws.com'
-            : 'https://paymayajs.s3.amazonaws.com';
+        if (this.isSandbox) {
+            this.apiUrl = 'https://pg-sandbox.paymaya.com';
+            this.formUrl = 'https://paymayajs-staging.s3.amazonaws.com/dist/index.html';
+            this.eventOrigin = 'https://paymayajs-staging.s3.amazonaws.com';
+        } else {
+            this.apiUrl = 'https://pg.paymaya.com';
+            this.formUrl = 'https://paymayajs.s3.amazonaws.com/dist/index.html';
+            this.eventOrigin = 'https://paymayajs.s3.amazonaws.com';
+        }
     }
 
     private checkData(data: any) {
