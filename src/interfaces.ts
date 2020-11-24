@@ -57,10 +57,7 @@ interface Buyer {
     billingAddress?: BillingAddress;
 }
 
-enum ShippingType {
-    ST = 'ST',
-    SD = 'SD',
-}
+type ShippingType = "ST" | "SD";
 
 interface ShippingAddress extends BillingAddress {
     firstName: string;
