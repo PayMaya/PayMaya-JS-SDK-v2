@@ -57,7 +57,7 @@ interface Buyer {
     billingAddress?: BillingAddress;
 }
 
-enum ShippingType {
+export enum ShippingType {
     ST = 'ST',
     SD = 'SD',
 }
