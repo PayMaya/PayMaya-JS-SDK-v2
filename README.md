@@ -266,3 +266,15 @@ Returns `void`
 | options.buttonTextColor | string | No | button text color (example: '#000') |
 | options.showLogo | boolean | No | boolean whether to show PayMaya logo or not |
 
+## Examples
+
+A sample React.JS project is available under [/example](https://github.com/PayMaya/PayMaya-JS-SDK-v2/tree/master/example) in the repo.
+
+```sh
+git clone git@github.com:PayMaya/PayMaya-JS-SDK-v2.git
+cd PayMaya-JS-SDK-v2
+npm ci
+cd example
+npm ci
+npm start
+```
