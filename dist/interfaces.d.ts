@@ -50,7 +50,7 @@ interface Buyer {
     shippingAddress?: ShippingAddress;
     billingAddress?: BillingAddress;
 }
-declare enum ShippingType {
+export declare enum ShippingType {
     ST = "ST",
     SD = "SD"
 }
