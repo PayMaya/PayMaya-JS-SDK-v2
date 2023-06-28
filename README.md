@@ -52,11 +52,11 @@ function App() {
 
 or vanilla js
 ```js
-    <script>
-      const myExampleObject = {};
-      PayMayaSDK.init('my-public-key', true);
-      PayMayaSDK.createCheckout(myExampleObject);
-    </script>
+<script>
+  const myExampleObject = {};
+  PayMayaSDK.init('my-public-key', true);
+  PayMayaSDK.createCheckout(myExampleObject);
+</script>
 ```
 
 ## SDK API
