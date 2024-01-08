@@ -5,6 +5,10 @@ import {
     CreditCardFormOptions
 } from './interfaces';
 
+// TODO: Pull dynamically from package.json
+const PACKAGE_NAME = 'paymaya-js-sdk';
+const PACKAGE_VERSION = '2.0.2';
+
 class PayMayaSDK {
     private publicKey: string = '';
     private isSandbox: boolean = true;
@@ -47,6 +51,7 @@ class PayMayaSDK {
     private async genericRequestFn(requestMethod: string, requestBody: any, url: string) {
         const config = {
             headers: {
+                'x-paymaya-sdk': `${PACKAGE_NAME}/${PACKAGE_VERSION}`,
                 'Content-Type': 'application/json',
                 'Authorization': `Basic ${btoa(this.publicKey)}`
             },

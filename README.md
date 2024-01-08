@@ -23,7 +23,7 @@ import PaymayaSdkClient from 'paymaya-js-sdk'
 or simply include it through a script tag on your HTML site:
 
 ```html
-<script src="https://unpkg.com/paymaya-js-sdk@2.0.1/dist/bundle.js"></script>
+<script src="https://unpkg.com/paymaya-js-sdk@2.0.2/dist/bundle.js"></script>
 ```
 
 NOTE: when including via script tags, the SDK is globally available using the variable `PayMayaSDK`
